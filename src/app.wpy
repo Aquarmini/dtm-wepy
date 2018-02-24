@@ -87,7 +87,6 @@
     }
 
     onLaunch() {
-      wepy.setStorageSync('token', 'xxxx')
       this.checkLoginStatus()
     }
 

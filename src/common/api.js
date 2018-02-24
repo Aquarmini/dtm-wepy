@@ -9,6 +9,7 @@ var api = {
     let self = this
     return new Promise((resolve, reject) => {
       var token = wepy.getStorageSync('token')
+      console.log(token)
       var data = {
         url: self.baseUrl + route,
         data: params,

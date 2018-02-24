@@ -1,49 +1,54 @@
 <template>
-    <view class="container">
-        <view class="page__hd">
-            <view class="page__title">登录</view>
-        </view>
-        <view class="page__bd page__bd_spacing">
-            <view class="weui-cells weui-cells_after-title">
-                <view class="weui-cell weui-cell_input">
-                    <view class="weui-cell__hd">
-                        <view class="weui-label">用户名</view>
-                    </view>
-                    <view class="weui-cell__bd">
-                        <input class="weui-input" placeholder="请输入用户名"/>
-                    </view>
-                </view>
-                <view class="weui-cell weui-cell_input">
-                    <view class="weui-cell__hd">
-                        <view class="weui-label">密码</view>
-                    </view>
-                    <view class="weui-cell__bd">
-                        <input class="weui-input" type="password" placeholder="请输入密码"/>
-                    </view>
-                </view>
-            </view>
-            <view class="page__row"></view>
-            <view class="weui-flex">
-                <view class="weui-flex__item">
-                    <button class="weui-btn placeholder" type="primary">登录</button>
-                </view>
-                <view class="weui-flex__item">
-                    <button class="weui-btn placeholder" type="primary" @tap="toRegister">注册</button>
-                </view>
-            </view>
-        </view>
+  <view class="container">
+    <view class="page__hd">
+      <view class="page__title">登录</view>
     </view>
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">用户名</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入用户名" value="{{login}}" @input="bindLogin"/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">密码</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" type="password" placeholder="请输入密码" value="{{password}}" @input="bindPassword"/>
+          </view>
+        </view>
+      </view>
+      <view class="page__row"></view>
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <button class="weui-btn placeholder" type="primary" @tap="login">登录</button>
+        </view>
+        <view class="weui-flex__item">
+          <button class="weui-btn placeholder" type="primary" @tap="toRegister">注册</button>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import api from '../common/api'
+  import md5 from '../common/md5'
 
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: 'test'
     }
 
-    data = {}
+    data = {
+      login: null,
+      password: null
+    }
 
     method = {}
 
@@ -51,10 +56,34 @@
 
     }
 
+    login() {
+      var params = this.data
+      if (this.data.password) {
+        params.password = md5.hexMD5(this.data.password)
+      }
+      api.post('/user/login', params).then(res => {
+        var token = res.data.token
+        wepy.setStorageSync('token', token)
+        wepy.redirectTo({
+          url: 'index'
+        })
+      })
+    }
+
     toRegister() {
       wepy.navigateTo({
         url: 'register'
       })
+    }
+
+    bindLogin(e) {
+      this.login = e.detail.value
+      this.$apply()
+    }
+
+    bindPassword(e) {
+      this.password = e.detail.value
+      this.$apply()
     }
   }
 </script>
