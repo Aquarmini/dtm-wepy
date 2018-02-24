@@ -1,16 +1,34 @@
 <template>
     <view class="container">
-        <view class="weui-panel weui-panel_access" style="width: 100%">
-            <view class="weui-panel__hd">菜单</view>
-            <view class="weui-panel__bd">
-                <view class="weui-media-box weui-media-box_appmsg">
-                    <view class="weui-media-box__hd">
-                        <image style="height: 80px;width: 80px" src="{{ userInfo.avatarUrl }}"/>
+        <view class="page__hd">
+            <view class="page__title">登录</view>
+        </view>
+        <view class="page__bd page__bd_spacing">
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">用户名</view>
                     </view>
-                    <view class="weui-media-box__bd">
-                        <view class="weui-media-box__title">{{ userInfo.nickName }}</view>
-                        <!--<view class="weui-media-box__desc">介绍</view>-->
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" placeholder="请输入用户名"/>
                     </view>
+                </view>
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">密码</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" type="password" placeholder="请输入密码"/>
+                    </view>
+                </view>
+            </view>
+            <view class="page__row"></view>
+            <view class="weui-flex">
+                <view class="weui-flex__item">
+                    <button class="weui-btn placeholder" type="primary">登录</button>
+                </view>
+                <view class="weui-flex__item">
+                    <button class="weui-btn placeholder" type="primary" @tap="toRegister">注册</button>
                 </view>
             </view>
         </view>
@@ -25,23 +43,17 @@
       navigationBarTitleText: 'test'
     }
 
-    data = {
-      userInfo: {
-        nickName: '加载中...'
-      }
-    }
+    data = {}
 
     method = {}
 
     onLoad() {
-      let self = this
 
-      this.$parent.getUserInfo(function (userInfo) {
-        if (userInfo) {
-          self.userInfo = userInfo
-          console.log(userInfo)
-        }
-        self.$apply()
+    }
+
+    toRegister() {
+      wepy.navigateTo({
+        url: 'register'
       })
     }
   }

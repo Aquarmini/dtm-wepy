@@ -8,20 +8,32 @@ var api = {
   post: function (route, data) {
     let self = this
     return new Promise((resolve, reject) => {
-      var app = getApp();
-
+      var token = wepy.getStorageSync('token')
       var data = {
         url: self.baseUrl + route,
         data: data,
         method: 'POST',
-        success: resolve,
+        success: function (response) {
+          if (response.statusCode == 200) {
+            data = response.data
+            if (data.success) {
+              resolve(data)
+            } else {
+              console.log(data)
+              if (data.errorCode == 700) {
+                wepy.redirectTo({
+                  url: 'pages/login'
+                })
+              }
+              reject(data)
+            }
+          }
+        },
         fail: reject
       };
-      console.log(app)
-      // if (app.globalData.token) {
-      //   data.header = { 'X-DTM-TOKEN': app.globalData.token };
-      // }
-
+      if (token) {
+        data.header = { 'X-DTM-TOKEN': token };
+      }
       wepy.request(data);
     })
   }

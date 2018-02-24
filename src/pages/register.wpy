@@ -1,0 +1,86 @@
+<template>
+    <view class="container">
+        <view class="page__hd">
+            <view class="page__title">注册</view>
+        </view>
+        <view class="page__bd page__bd_spacing">
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">用户名</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" placeholder="请输入用户名" value="{{login}}" @input="bindLogin"/>
+                    </view>
+                </view>
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">昵称</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" placeholder="请输入昵称" value="{{nickname}}" @input="bindNickname"/>
+                    </view>
+                </view>
+                <view class="weui-cell weui-cell_input">
+                    <view class="weui-cell__hd">
+                        <view class="weui-label">密码</view>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" type="password" placeholder="请输入密码" value="{{password}}"
+                               @input="bindPassword"/>
+                    </view>
+                </view>
+            </view>
+            <view class="page__row"></view>
+            <view class="weui-flex">
+                <view class="weui-flex__item">
+                    <button class="weui-btn placeholder" type="primary" @tap="register">注册</button>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from '../common/api'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'test'
+    }
+
+    data = {
+      login: null,
+      password: null,
+      nickname: null
+    }
+
+    method = {}
+
+    onLoad() {
+
+    }
+
+    register() {
+      api.post('/user/register', this.data).then(res => {
+        console.log(res)
+      })
+    }
+
+    bindLogin(e) {
+      this.login = e.detail.value
+      this.$apply()
+    }
+
+    bindPassword(e) {
+      this.password = e.detail.value
+      this.$apply()
+    }
+
+    bindNickname(e) {
+      this.nickname = e.detail.value
+      this.$apply()
+    }
+  }
+</script>
