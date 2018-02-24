@@ -19,7 +19,6 @@
 
 <script>
   import wepy from 'wepy'
-  import api from '../common/api'
 
   export default class Index extends wepy.page {
     config = {
@@ -36,9 +35,7 @@
 
     onLoad() {
       let self = this
-      api.post('/user/login').then(res => {
-        console.log(res)
-      })
+
       this.$parent.getUserInfo(function (userInfo) {
         if (userInfo) {
           self.userInfo = userInfo
