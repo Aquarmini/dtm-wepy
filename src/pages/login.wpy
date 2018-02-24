@@ -42,7 +42,7 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '登录'
     }
 
     data = {

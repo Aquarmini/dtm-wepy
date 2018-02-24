@@ -1,20 +1,19 @@
 <template>
-    <view class="container">
-        <view class="weui-panel weui-panel_access" style="width: 100%">
-            <view class="weui-panel__hd">菜单</view>
-            <view class="weui-panel__bd">
-                <view class="weui-media-box weui-media-box_appmsg">
-                    <view class="weui-media-box__hd">
-                        <image style="height: 80px;width: 80px" src="{{ userInfo.avatarUrl }}"/>
-                    </view>
-                    <view class="weui-media-box__bd">
-                        <view class="weui-media-box__title">{{ userInfo.nickName }}</view>
-                        <!--<view class="weui-media-box__desc">介绍</view>-->
-                    </view>
-                </view>
-            </view>
-        </view>
+  <view class="container">
+    <view class="page__hd">
+      <view class="page__title">任务组列表</view>
     </view>
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-cells weui-cells_after-title" style="width:100%">
+        <repeat for="{{items}}" key="index" index="index" item="item">
+          <navigator url="task/index?groupId={{item.id}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__bd">{{item.name}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </navigator>
+        </repeat>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -23,27 +22,46 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: '首页'
     }
 
     data = {
-      userInfo: {
+      wechatUserInfo: {
         nickName: '加载中...'
-      }
+      },
+      userInfo: {
+        nickname: null
+      },
+      items: {}
     }
 
     method = {}
 
     onLoad() {
       let self = this
-      api.post('/user/login').then(res => {
-        console.log(res)
-      })
-      this.$parent.getUserInfo(function (userInfo) {
+
+      self.userInfo = self.$parent.globalData.userInfo
+      self.$apply()
+
+      self.$parent.getUserInfo(function (userInfo) {
         if (userInfo) {
-          self.userInfo = userInfo
-          console.log(userInfo)
+          self.wechatUserInfo = userInfo
         }
+        self.$apply()
+      })
+
+      self.init()
+    }
+
+    async init() {
+      let self = this
+      var params = {
+        pageIndex: 0,
+        pageSize: 10
+      }
+      api.post('/group/index', params).then(res => {
+        self.items = res.data.items
+        console.log(self.items)
         self.$apply()
       })
     }

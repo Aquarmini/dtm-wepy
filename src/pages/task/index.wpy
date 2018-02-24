@@ -1,0 +1,53 @@
+<template>
+  <view class="container">
+    <view class="page__hd">
+      <view class="page__title">任务列表</view>
+    </view>
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-cells weui-cells_after-title" style="width:100%">
+        <repeat for="{{items}}" key="index" index="index" item="item">
+          <view url="" class="weui-cell" hover-class="weui-cell_active">
+            <view class="weui-cell__bd">{{item.detail}}</view>
+          </view>
+        </repeat>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from '../../common/api'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '任务列表'
+    }
+
+    data = {
+      items: {},
+      groupId: null
+    }
+
+    method = {}
+
+    onLoad(options) {
+      let self = this
+      self.groupId = options.groupId
+      self.init()
+    }
+
+    async init() {
+      let self = this
+      var params = {
+        pageIndex: 0,
+        pageSize: 10,
+        groupId: self.groupId
+      }
+      api.post('/task/index', params).then(res => {
+        self.items = res.data.items
+        self.$apply()
+      })
+    }
+  }
+</script>
