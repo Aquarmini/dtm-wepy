@@ -1,0 +1,66 @@
+<template>
+  <view class="container">
+    <view class="page__hd">
+      <view class="page__title">新建任务组</view>
+    </view>
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">组名</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入组名" value="{{name}}" @input="bindName"/>
+          </view>
+        </view>
+      </view>
+      <view class="page__row"></view>
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <button class="weui-btn placeholder" type="primary" @tap="save">保存</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from '../../common/api'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '任务组'
+    }
+
+    data = {
+      name: null
+    }
+
+    method = {}
+
+    onLoad() {
+
+    }
+
+    save() {
+      var params = this.data
+      api.post('/group/add', params).then(res => {
+        wepy.redirectTo({
+          url: '/pages/index'
+        })
+      }).catch(res => {
+        wepy.showModal({
+          title: '提示',
+          content: res.errorMessage,
+          showCancel: false
+        })
+      })
+    }
+
+    bindName(e) {
+      this.name = e.detail.value
+      this.$apply()
+    }
+  }
+</script>

@@ -2,14 +2,16 @@
   <view class="container">
     <view class="page__hd">
       <view class="page__title">任务组列表</view>
+      <view class="page__desc">
+        <button class="weui-btn" size="mini" type="primary" @tap="toGroupAdd">新增任务组</button>
+      </view>
     </view>
     <view class="page__bd page__bd_spacing">
       <view class="weui-cells weui-cells_after-title" style="width:100%">
         <repeat for="{{items}}" key="index" index="index" item="item">
-          <navigator url="task/index?groupId={{item.id}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view @tap="tapItem" data-id="{{item.id}}" class="weui-cell" hover-class="weui-cell_active">
             <view class="weui-cell__bd">{{item.name}}</view>
-            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-          </navigator>
+          </view>
         </repeat>
       </view>
     </view>
@@ -63,6 +65,32 @@
         self.items = res.data.items
         console.log(self.items)
         self.$apply()
+      })
+    }
+
+    toGroupAdd() {
+      wepy.navigateTo({
+        url: 'group/edit'
+      })
+    }
+
+    tapItem(e) {
+      var groupId = e.currentTarget.dataset.id
+      wepy.showActionSheet({
+        itemList: ['查看任务', '修改组名', '删除组'],
+        success: function (res) {
+          if (!res.cancel) {
+            switch (res.tapIndex) {
+              case 0:
+                wepy.navigateTo({
+                  url: '/pages/task/index?groupId=' + groupId
+                })
+                break
+              case 1:
+              case 2:
+            }
+          }
+        }
       })
     }
   }

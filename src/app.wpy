@@ -68,7 +68,8 @@
         'pages/index',
         'pages/login',
         'pages/register',
-        'pages/task/index'
+        'pages/task/index',
+        'pages/group/edit'
       ],
       window: {
         backgroundTextStyle: 'light',
