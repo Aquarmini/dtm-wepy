@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="page__hd">
-      <view class="page__title">新建任务组</view>
+      <view class="page__title">{{title}}</view>
     </view>
     <view class="page__bd page__bd_spacing">
       <view class="weui-cells weui-cells_after-title">
@@ -10,7 +10,7 @@
             <view class="weui-label">组名</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入组名" value="{{name}}" @input="bindName"/>
+            <input class="weui-input" placeholder="请输入组名" value="{{groupInfo.name}}" @input="bindName"/>
           </view>
         </view>
       </view>
@@ -34,18 +34,32 @@
     }
 
     data = {
-      name: null
+      title: '新建任务组',
+      api: '/group/add',
+      params: {},
+      groupInfo: {
+        name: null
+      }
     }
 
     method = {}
 
-    onLoad() {
-
+    onLoad(e) {
+      let self = this
+      if (e.groupId) {
+        // 编辑
+        self.title = '编辑任务组'
+        api.post('/group/info', { groupId: e.groupId }).then(res => {
+          self.groupInfo = res.data
+          self.api = '/group/save'
+          self.params.groupId = res.data.id
+          self.$apply()
+        })
+      }
     }
 
     save() {
-      var params = this.data
-      api.post('/group/add', params).then(res => {
+      api.post(this.api, this.params).then(res => {
         wepy.redirectTo({
           url: '/pages/index'
         })
@@ -59,7 +73,8 @@
     }
 
     bindName(e) {
-      this.name = e.detail.value
+      this.groupInfo.name = e.detail.value
+      this.params.name = e.detail.value
       this.$apply()
     }
   }

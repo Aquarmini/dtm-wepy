@@ -87,6 +87,10 @@
                 })
                 break
               case 1:
+                wepy.navigateTo({
+                  url: '/pages/group/edit?groupId=' + groupId
+                })
+                break
               case 2:
             }
           }
