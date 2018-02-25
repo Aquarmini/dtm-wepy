@@ -14,8 +14,11 @@
       <view class="weui-cells__title">列表详情</view>
       <view class="weui-cells weui-cells_after-title" style="width:100%">
         <repeat for="{{items}}" key="index" index="index" item="item">
-          <view class="weui-cell" hover-class="weui-cell_active">
+          <view @tap="tapItem" data-id="{{item.id}}" class="weui-cell" hover-class="weui-cell_active">
             <view class="weui-cell__bd">{{item.detail}}</view>
+            <view class="weui-cell__fd">
+              <view class="weui-badge">{{item.statusName}}</view>
+            </view>
           </view>
         </repeat>
       </view>
@@ -26,6 +29,7 @@
 <script>
   import wepy from 'wepy'
   import api from '../../common/api'
+  import task from '../../biz/task'
 
   export default class Index extends wepy.page {
     config = {
@@ -49,15 +53,18 @@
       self.init()
     }
 
-    async init() {
+    init() {
       let self = this
       var params = {
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 100,
         groupId: self.groupId
       }
       api.post('/task/index', params).then(res => {
         self.items = res.data.items
+        for (var i in self.items) {
+          self.items[i].statusName = task.getStatusName(self.items[i].status)
+        }
         self.$apply()
       })
     }
@@ -75,37 +82,36 @@
                 })
                 break
               case 1:
-                var result = []
-                for (var i in self.items) {
-                  var item = self.items[i]
-                  var date = item.beginAt.substring(0, 10)
-                  var detail = item.detail
-                  if (!result[date]) {
-                    result[date] = []
-                  }
-                  result[date].push(detail)
-                }
-
-                var message = ''
-                for (var d in result) {
-                  message += '日期：' + d + '\n'
-                  for (var j in result[d]) {
-                    var index = parseInt(j) + 1
-                    message += '  ' + index + '.' + result[d][j] + '\n'
-                  }
-                }
-                wepy.setClipboardData({
-                  data: message,
-                  success: function (res) {
-                    wepy.getClipboardData({
-                      success: function (res) {
-                        console.log(res.data) // data
-                      }
-                    })
-                  }
-                })
+                task.setClipboardData(self.items)
                 break
             }
+          }
+        }
+      })
+    }
+
+    tapItem(e) {
+      let self = this
+      var taskId = e.currentTarget.dataset.id
+      var status = null
+      wepy.showActionSheet({
+        itemList: ['开发中', '延期', '已完成'],
+        success: function (res) {
+          if (!res.cancel) {
+            switch (res.tapIndex) {
+              case 0:
+                status = 1
+                break
+              case 1:
+                status = 2
+                break
+              case 2:
+                status = 10
+                break
+            }
+            api.post('/task/status', { taskId: taskId, status: status }).then(res => {
+              self.init()
+            })
           }
         }
       })
