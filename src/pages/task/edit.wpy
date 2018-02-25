@@ -1,0 +1,81 @@
+<template>
+  <view class="container">
+    <view class="page__hd">
+      <view class="page__title">{{title}}</view>
+    </view>
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">任务详情</view>
+          </view>
+          <view class="weui-cell__bd">
+            <textarea auto-focus value="{{taskInfo.detail}}" @input="bindDetail"/>
+          </view>
+        </view>
+      </view>
+      <view class="page__row"></view>
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <button class="weui-btn placeholder" type="primary" @tap="save">保存</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from '../../common/api'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '任务'
+    }
+
+    data = {
+      title: '新建任务',
+      api: '/task/add',
+      groupId: null,
+      params: {},
+      taskInfo: {}
+    }
+
+    method = {}
+
+    onLoad(e) {
+      let self = this
+      this.groupId = e.groupId
+      this.params.groupId = e.groupId
+
+      if (e.taskId) {
+        // 编辑
+        self.title = '编辑任务'
+        api.post('/task/info', { groupId: e.groupId }).then(res => {
+          self.groupInfo = res.data
+          self.api = '/group/save'
+          self.params.groupId = res.data.id
+          self.$apply()
+        })
+      }
+    }
+
+    save() {
+      api.post(this.api, this.params).then(res => {
+        wx.navigateBack()
+      }).catch(res => {
+        wepy.showModal({
+          title: '提示',
+          content: res.errorMessage,
+          showCancel: false
+        })
+      })
+    }
+
+    bindDetail(e) {
+      this.taskInfo.detail = e.detail.value
+      this.params.detail = e.detail.value
+      this.$apply()
+    }
+  }
+</script>

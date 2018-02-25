@@ -2,6 +2,9 @@
   <view class="container">
     <view class="page__hd">
       <view class="page__title">任务列表</view>
+      <view class="page__desc">
+        <button class="weui-btn" size="mini" type="primary" @tap="toTaskAdd">新增任务</button>
+      </view>
     </view>
     <view class="page__bd page__bd_spacing">
       <view class="weui-cells weui-cells_after-title" style="width:100%">
@@ -34,6 +37,10 @@
     onLoad(options) {
       let self = this
       self.groupId = options.groupId
+    }
+
+    onShow() {
+      let self = this
       self.init()
     }
 
@@ -47,6 +54,12 @@
       api.post('/task/index', params).then(res => {
         self.items = res.data.items
         self.$apply()
+      })
+    }
+
+    toTaskAdd() {
+      wepy.navigateTo({
+        url: '/pages/task/edit?groupId=' + this.groupId
       })
     }
   }
