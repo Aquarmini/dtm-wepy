@@ -4,13 +4,11 @@
       <view class="page__title">{{title}}</view>
     </view>
     <view class="page__bd page__bd_spacing">
+      <view class="weui-cells__title">任务详情</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-            <view class="weui-label">任务详情</view>
-          </view>
           <view class="weui-cell__bd">
-            <textarea auto-focus value="{{taskInfo.detail}}" @input="bindDetail"/>
+            <textarea value="{{taskInfo.detail}}" @input="bindDetail"/>
           </view>
         </view>
       </view>
@@ -62,7 +60,7 @@
 
     save() {
       api.post(this.api, this.params).then(res => {
-        wx.navigateBack()
+        wepy.navigateBack()
       }).catch(res => {
         wepy.showModal({
           title: '提示',

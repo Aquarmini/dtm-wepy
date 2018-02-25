@@ -70,7 +70,7 @@
 
     toGroupAdd() {
       wepy.navigateTo({
-        url: 'group/edit'
+        url: '/pages/group/edit'
       })
     }
 

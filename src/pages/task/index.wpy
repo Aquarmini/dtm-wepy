@@ -1,15 +1,20 @@
 <template>
   <view class="container">
-    <view class="page__hd">
-      <view class="page__title">任务列表</view>
-      <view class="page__desc">
-        <button class="weui-btn" size="mini" type="primary" @tap="toTaskAdd">新增任务</button>
-      </view>
-    </view>
     <view class="page__bd page__bd_spacing">
+      <view class="weui-cells" style="width:100%">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            任务列表
+          </view>
+          <view class="weui-cell__ft">
+            <view class="weui-vcode-btn" @tap="tapButton">操作</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells__title">列表详情</view>
       <view class="weui-cells weui-cells_after-title" style="width:100%">
         <repeat for="{{items}}" key="index" index="index" item="item">
-          <view url="" class="weui-cell" hover-class="weui-cell_active">
+          <view class="weui-cell" hover-class="weui-cell_active">
             <view class="weui-cell__bd">{{item.detail}}</view>
           </view>
         </repeat>
@@ -57,9 +62,52 @@
       })
     }
 
-    toTaskAdd() {
-      wepy.navigateTo({
-        url: '/pages/task/edit?groupId=' + this.groupId
+    tapButton(e) {
+      let self = this
+      wepy.showActionSheet({
+        itemList: ['新增任务', '复制到剪贴板'],
+        success: function (res) {
+          if (!res.cancel) {
+            switch (res.tapIndex) {
+              case 0:
+                wepy.navigateTo({
+                  url: '/pages/task/edit?groupId=' + self.groupId
+                })
+                break
+              case 1:
+                var result = []
+                for (var i in self.items) {
+                  var item = self.items[i]
+                  var date = item.beginAt.substring(0, 10)
+                  var detail = item.detail
+                  if (!result[date]) {
+                    result[date] = []
+                  }
+                  result[date].push(detail)
+                }
+
+                var message = ''
+                for (var d in result) {
+                  message += '日期：' + d + '\n'
+                  for (var j in result[d]) {
+                    var index = parseInt(j) + 1
+                    message += '  ' + index + '.' + result[d][j] + '\n'
+                  }
+                }
+                wepy.setClipboardData({
+                  data: message,
+                  success: function (res) {
+                    wepy.getClipboardData({
+                      success: function (res) {
+                        console.log(res.data) // data
+                      }
+                    })
+                  }
+                })
+                break
+            }
+          }
+        }
       })
     }
   }

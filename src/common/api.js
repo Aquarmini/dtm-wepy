@@ -4,7 +4,9 @@
 import wepy from 'wepy'
 
 var api = {
-  baseUrl: 'http://api.dtm.phalcon.xin',
+  // baseUrl: 'http://api.dtm.phalcon.xin',
+  baseUrl: 'http://body-building.phalcon.lmx0536.cn',
+
   post: function (route, params) {
     let self = this
     return new Promise((resolve, reject) => {
@@ -23,7 +25,7 @@ var api = {
             } else {
               if (data.errorCode == 700) {
                 wepy.redirectTo({
-                  url: 'pages/login'
+                  url: '/pages/login'
                 })
               }
               reject(data)

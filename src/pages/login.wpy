@@ -65,14 +65,14 @@
         var token = res.data.token
         wepy.setStorageSync('token', token)
         wepy.redirectTo({
-          url: 'index'
+          url: '/pages/index'
         })
       })
     }
 
     toRegister() {
       wepy.navigateTo({
-        url: 'register'
+        url: '/pages/register'
       })
     }
 

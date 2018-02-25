@@ -107,7 +107,7 @@
       if (!token) {
         // 没有TOKEN，跳转登录
         wepy.redirectTo({
-          url: 'pages/login'
+          url: '/pages/login'
         })
       }
 
