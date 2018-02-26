@@ -1,12 +1,23 @@
 <template>
   <view class="container">
-    <view class="page__hd">
-      <view class="page__title">任务组列表</view>
-      <view class="page__desc">
-        <button class="weui-btn" size="mini" type="primary" @tap="toGroupAdd">新增任务组</button>
-      </view>
-    </view>
+    <!--<view class="page__hd">-->
+    <!--<view class="page__title">任务组列表</view>-->
+    <!--<view class="page__desc">-->
+    <!--<button class="weui-btn" size="mini" type="primary" @tap="toGroupAdd">新增任务组</button>-->
+    <!--</view>-->
+    <!--</view>-->
     <view class="page__bd page__bd_spacing">
+      <view class="weui-cells" style="width:100%">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            任务组列表
+          </view>
+          <view class="weui-cell__ft">
+            <view class="weui-vcode-btn" @tap="tapMenu">操作</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells__title">列表详情</view>
       <view class="weui-cells weui-cells_after-title" style="width:100%">
         <repeat for="{{items}}" key="index" index="index" item="item">
           <view @tap="tapItem" data-id="{{item.id}}" class="weui-cell" hover-class="weui-cell_active">
@@ -70,9 +81,36 @@
       })
     }
 
-    toGroupAdd() {
-      wepy.navigateTo({
-        url: '/pages/group/edit'
+    tapMenu(e) {
+      wepy.showActionSheet({
+        itemList: ['新增任务组', '绑定微信'],
+        success: function (res) {
+          if (!res.cancel) {
+            switch (res.tapIndex) {
+              case 0:
+                wepy.navigateTo({
+                  url: '/pages/group/edit'
+                })
+                break
+              case 1:
+                wepy.login({
+                  success(res) {
+                    var params = {
+                      code: res.code
+                    }
+                    api.post('/user/bind/wechat', params).then(res => {
+                      wepy.showModal({
+                        title: '提示',
+                        content: '绑定成功',
+                        showCancel: false
+                      })
+                    })
+                  }
+                })
+                break
+            }
+          }
+        }
       })
     }
 

@@ -28,6 +28,11 @@
           <button class="weui-btn placeholder" type="primary" @tap="login">登录</button>
         </view>
         <view class="weui-flex__item">
+          <button class="weui-btn placeholder" type="primary" @tap="autoLogin">快捷登录</button>
+        </view>
+      </view>
+      <view class="weui-flex">
+        <view class="weui-flex__item">
           <button class="weui-btn placeholder" type="primary" @tap="toRegister">注册</button>
         </view>
       </view>
@@ -67,6 +72,23 @@
         wepy.redirectTo({
           url: '/pages/index'
         })
+      })
+    }
+
+    autoLogin() {
+      wepy.login({
+        success(res) {
+          var params = {
+            code: res.code
+          }
+          api.post('/user/login/wechat', params).then(res => {
+            var token = res.data.token
+            wepy.setStorageSync('token', token)
+            wepy.redirectTo({
+              url: '/pages/index'
+            })
+          })
+        }
       })
     }
 

@@ -4,8 +4,8 @@
 import wepy from 'wepy'
 
 var api = {
-  // baseUrl: 'http://api.dtm.phalcon.xin',
-  baseUrl: 'https://body-building.phalcon.lmx0536.cn',
+  baseUrl: 'http://api.dtm.phalcon.xin',
+  // baseUrl: 'https://body-building.phalcon.lmx0536.cn',
 
   post: function (route, params) {
     let self = this
