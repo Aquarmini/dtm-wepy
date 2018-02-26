@@ -32,6 +32,7 @@
 <script>
   import wepy from 'wepy'
   import api from '../common/api'
+  import ws from '../common/websocket'
 
   export default class Index extends wepy.page {
     config = {
@@ -66,6 +67,13 @@
 
     onShow() {
       this.init()
+
+//      setInterval(function () {
+//        ws.send({
+//          action: 'index',
+//          data: {}
+//        })
+//      }, 1000)
     }
 
     async init() {

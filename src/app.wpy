@@ -101,6 +101,12 @@
       let self = this
       return api.post('/user/info').then(res => {
         self.globalData.userInfo = res.data
+        ws.send({
+          action: 'init',
+          data: {
+            token: token
+          }
+        })
       })
     }
 
