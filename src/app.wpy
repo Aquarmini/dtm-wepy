@@ -93,6 +93,7 @@
 
     onLaunch() {
       this.checkLoginStatus()
+      this.test()
     }
 
     async getUserInfoByToken(token) {
@@ -125,6 +126,18 @@
           that.globalData.wechatUserInfo = res.userInfo
           cb && cb(res.userInfo)
         }
+      })
+    }
+
+    test() {
+      wepy.connectSocket({
+        url: 'ws://127.0.0.1:12000'
+      })
+
+      wepy.onSocketOpen(function (res) {
+        wepy.sendSocketMessage({
+          data: 'xxx'
+        })
       })
     }
   }
