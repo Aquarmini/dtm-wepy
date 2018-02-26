@@ -93,7 +93,7 @@
 
     onLaunch() {
       this.checkLoginStatus()
-      this.test()
+//      this.test()
     }
 
     async getUserInfoByToken(token) {
