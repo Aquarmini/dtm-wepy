@@ -60,6 +60,7 @@
 <script>
   import wepy from 'wepy'
   import api from './common/api'
+  import ws from './common/websocket'
   import 'wepy-async-function'
 
   export default class extends wepy.app {
@@ -93,7 +94,7 @@
 
     onLaunch() {
       this.checkLoginStatus()
-//      this.test()
+      ws.connect()
     }
 
     async getUserInfoByToken(token) {
@@ -126,18 +127,6 @@
           that.globalData.wechatUserInfo = res.userInfo
           cb && cb(res.userInfo)
         }
-      })
-    }
-
-    test() {
-      wepy.connectSocket({
-        url: 'ws://127.0.0.1:12000'
-      })
-
-      wepy.onSocketOpen(function (res) {
-        wepy.sendSocketMessage({
-          data: 'xxx'
-        })
       })
     }
   }

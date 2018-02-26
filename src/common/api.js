@@ -2,18 +2,16 @@
  * Created by limx on 2018/2/24.
  */
 import wepy from 'wepy'
+import config from './config'
 
 var api = {
-  // baseUrl: 'http://api.dtm.phalcon.xin',
-  baseUrl: 'https://dtm.phalcon.lmx0536.cn',
-
   post: function (route, params) {
     let self = this
     return new Promise((resolve, reject) => {
       var token = wepy.getStorageSync('token')
       console.log(token)
       var data = {
-        url: self.baseUrl + route,
+        url: config.apiUrl + route,
         data: params,
         method: 'POST',
         success: function (response) {
