@@ -51,8 +51,10 @@
         }
         self.$apply()
       })
+    }
 
-      self.init()
+    onShow() {
+      this.init()
     }
 
     async init() {
