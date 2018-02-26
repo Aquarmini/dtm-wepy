@@ -38,6 +38,14 @@ var api = {
         data.header = { 'X-DTM-TOKEN': token };
       }
       wepy.request(data);
+    }).catch(res => {
+      if (res.success === false) {
+        wepy.showModal({
+          title: '提示',
+          content: res.errorMessage,
+          showCancel: false
+        })
+      }
     })
   }
 }
