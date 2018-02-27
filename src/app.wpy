@@ -108,12 +108,13 @@
       ws.connect()
     }
 
-    async getUserInfoByToken(token) {
+    async getUserInfoByToken() {
       let self = this
       return api.post('/user/info').then(res => {
+        var token = wepy.getStorageSync('token')
         self.globalData.userInfo = res.data
         ws.send({
-          action: 'init',
+          id: 'init',
           data: {
             token: token
           }

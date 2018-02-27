@@ -23,10 +23,15 @@ var websocket = {
         self.send(message)
       }
     })
+
+    wepy.onSocketMessage(function (res) {
+      console.log('收到服务器内容：' + res.data)
+    })
   },
 
   send(message) {
     if (this.open) {
+      console.log(message)
       wepy.sendSocketMessage({
         data: JSON.stringify(message)
       })
