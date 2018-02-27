@@ -1,0 +1,53 @@
+<template>
+  <view class="container">
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd">
+          <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="{{wechatUserInfo.avatarUrl}}"/>
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">{{userInfo.nickname}}</view>
+              <view class="weui-media-box__desc">昵称：{{wechatUserInfo.nickName}}
+                | {{wechatUserInfo.province}} {{wechatUserInfo.city}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-cells__title">操作</view>
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="/pages/user/daily_task" class="weui-cell weui-cell_access" open-type="navigate" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">每日任务统计</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我'
+    }
+
+    data = {
+      userInfo: {},
+      wechatUserInfo: {}
+    }
+
+    method = {}
+
+    onLoad(options) {
+    }
+
+    onShow() {
+      this.userInfo = this.$parent.globalData.userInfo
+      this.wechatUserInfo = this.$parent.globalData.wechatUserInfo
+    }
+  }
+</script>

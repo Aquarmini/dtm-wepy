@@ -32,7 +32,7 @@
 <script>
   import wepy from 'wepy'
   import api from '../common/api'
-  import ws from '../common/websocket'
+  // import ws from '../common/websocket'
 
   export default class Index extends wepy.page {
     config = {

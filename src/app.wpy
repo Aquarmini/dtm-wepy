@@ -71,8 +71,19 @@
         'pages/register',
         'pages/task/index',
         'pages/group/edit',
-        'pages/task/edit'
+        'pages/task/edit',
+        'pages/user/index',
+        'pages/user/daily_task'
       ],
+      tabBar: {
+        list: [{
+          pagePath: 'pages/index',
+          text: '首页'
+        }, {
+          pagePath: 'pages/user/index',
+          text: '我的'
+        }]
+      },
       window: {
         backgroundTextStyle: 'light',
         navigationBarBackgroundColor: '#fff',
