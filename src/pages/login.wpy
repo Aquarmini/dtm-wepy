@@ -69,7 +69,7 @@
       api.post('/user/login', params).then(res => {
         var token = res.data.token
         wepy.setStorageSync('token', token)
-        wepy.redirectTo({
+        wepy.switchTab({
           url: '/pages/index'
         })
       })
@@ -84,7 +84,7 @@
           api.post('/user/login/wechat', params).then(res => {
             var token = res.data.token
             wepy.setStorageSync('token', token)
-            wepy.redirectTo({
+            wepy.switchTab({
               url: '/pages/index'
             })
           })

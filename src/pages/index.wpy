@@ -22,6 +22,8 @@
         <repeat for="{{items}}" key="index" index="index" item="item">
           <view @tap="tapItem" data-id="{{item.id}}" class="weui-cell" hover-class="weui-cell_active">
             <view class="weui-cell__bd">{{item.name}}</view>
+            <view class="weui-cell__ft" style="font-size: 13px;">任务数：{{item.taskCount}} | 完成数{{item.finishTaskCount}}
+            </view>
           </view>
         </repeat>
       </view>
@@ -68,12 +70,12 @@
     onShow() {
       this.init()
 
-//      setInterval(function () {
-//        ws.send({
-//          action: 'index',
-//          data: {}
-//        })
-//      }, 1000)
+      //      setInterval(function () {
+      //        ws.send({
+      //          action: 'index',
+      //          data: {}
+      //        })
+      //      }, 1000)
     }
 
     async init() {

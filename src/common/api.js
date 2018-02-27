@@ -17,7 +17,7 @@ var api = {
         success: function (response) {
           if (response.statusCode == 200) {
             data = response.data
-            console.log(data)
+            console.log('接口返回数据：', data)
             if (data.success) {
               resolve(data)
             } else {

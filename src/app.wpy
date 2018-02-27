@@ -111,6 +111,9 @@
     async getUserInfoByToken() {
       let self = this
       return api.post('/user/info').then(res => {
+        if (!res) {
+          return
+        }
         var token = wepy.getStorageSync('token')
         self.globalData.userInfo = res.data
         ws.send({
@@ -131,8 +134,7 @@
         })
       }
 
-      let info = await this.getUserInfoByToken()
-      console.log(info)
+      await this.getUserInfoByToken()
     }
 
     getUserInfo(cb) {
