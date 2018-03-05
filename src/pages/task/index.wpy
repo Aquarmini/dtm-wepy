@@ -95,9 +95,17 @@
       var taskId = e.currentTarget.dataset.id
       var status = null
       wepy.showActionSheet({
-        itemList: ['开发中', '延期', '已完成'],
+        itemList: ['开发中', '延期', '已完成', '删除'],
         success: function (res) {
           if (!res.cancel) {
+            if (res.tapIndex === 3) {
+              // 删除
+              api.post('/task/delete', { taskId: taskId }).then(res => {
+                self.init()
+              })
+              return
+            }
+
             switch (res.tapIndex) {
               case 0:
                 status = 1
