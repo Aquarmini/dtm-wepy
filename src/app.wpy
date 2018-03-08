@@ -58,7 +58,7 @@
 
   .btn-right-mini {
     float: right;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 2.4;
   }
 </style>
