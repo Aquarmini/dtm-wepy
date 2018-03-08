@@ -1,23 +1,10 @@
 <template>
   <view class="container">
-    <!--<view class="page__hd">-->
-    <!--<view class="page__title">任务组列表</view>-->
-    <!--<view class="page__desc">-->
-    <!--<button class="weui-btn" size="mini" type="primary" @tap="toGroupAdd">新增任务组</button>-->
-    <!--</view>-->
-    <!--</view>-->
     <view class="page__bd page__bd_spacing">
-      <view class="weui-cells" style="width:100%">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">
-            任务组列表
-          </view>
-          <view class="weui-cell__ft">
-            <view class="weui-vcode-btn" @tap="tapMenu">操作</view>
-          </view>
-        </view>
+      <view class="weui-cells__title">
+        任务组列表
+        <button class="weui-btn btn-right-mini" type="primary" @tap="tapMenu">操作</button>
       </view>
-      <view class="weui-cells__title">列表详情</view>
       <view class="weui-cells weui-cells_after-title" style="width:100%">
         <repeat for="{{items}}" key="index" index="index" item="item">
           <view @tap="tapItem" data-id="{{item.id}}" class="weui-cell" hover-class="weui-cell_active">

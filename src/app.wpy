@@ -55,6 +55,12 @@
   .page__row {
     height: 10px;
   }
+
+  .btn-right-mini {
+    float: right;
+    font-size: 10px;
+    line-height: 2.4;
+  }
 </style>
 
 <script>
