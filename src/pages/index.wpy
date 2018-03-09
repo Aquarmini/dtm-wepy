@@ -21,6 +21,7 @@
 <script>
   import wepy from 'wepy'
   import api from '../common/api'
+  import group from '../api/group'
   // import ws from '../common/websocket'
 
   export default class Index extends wepy.page {
@@ -112,6 +113,7 @@
     }
 
     tapItem(e) {
+      let self = this
       var groupId = e.currentTarget.dataset.id
       wepy.showActionSheet({
         itemList: ['查看任务', '修改组名', '删除组'],
@@ -129,6 +131,10 @@
                 })
                 break
               case 2:
+                group.delete(groupId).then(res => {
+                  self.init()
+                })
+                break
             }
           }
         }

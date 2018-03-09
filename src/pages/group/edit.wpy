@@ -60,7 +60,7 @@
 
     save() {
       api.post(this.api, this.params).then(res => {
-        wepy.redirectTo({
+        wepy.switchTab({
           url: '/pages/index'
         })
       }).catch(res => {
